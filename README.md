@@ -1,9 +1,9 @@
 #Message App
 
-
 ##Why we're making this.
 
-Whatsapp kinda sucks. Or, at least, isn't $19b good. We want to connect the world like facebook, but without all the modern corporate bad stuff. 
+Whatsapp kinda sucks. Or, at least, it isn't $19b good. We want to connect the world like facebook, but without all the modern corporate bad stuff. 
+
 We're creating a lightweight web app which allows for users to securely message and discuss topics.
 
 ##Functionality. 
