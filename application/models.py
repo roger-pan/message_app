@@ -1,9 +1,7 @@
 from . import db
-from sqlalchemy import Column, Integer, String, DateTime, Date
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.sql import func
 from flask_login import UserMixin
-
-
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -64,8 +62,7 @@ class Chat(db.Model):
 
     __tablename__ = 'Chat'
 
-    ChatID = Column(Integer)
-    GroupID = Column(Integer, ForeignKey('Group_User.GroupID'))
+    ChatID = Column(Integer, primary_key=True)
     chatname = Column(String(64), index=True)
     datecreated = Column(DateTime)
     messagessent = Column(Integer)
@@ -75,7 +72,6 @@ class Chat(db.Model):
 
         return Chat(
             ChatID =dict['ChatID'],
-            GroupID =dict['GroupID'],
             chatname =dict['chatname'],
             datecreated =dict['datecreated'],
             messagessent =dict['messagessent']
@@ -85,40 +81,41 @@ class Chat(db.Model):
 
         return {
             'ChatID' : self.ChatID,
-            'GroupID': self.GroupID,
             'chatname': self.chatname,
             'datecreated': self.datecreated,
             'messagessent': self.messagessent
         }
 
 
-class Group_User(db.Model):
+class Chat_User(db.Model):
     """ Data Model for lookup between groups and users"""
 
-    __tablename__ = "Group_User"
-
+    __tablename__ = "Chat_User"
+    __tableargs__ = PrimaryKeyConstraint('UserID', 'ChatID'),
+    )
+    
     UserID = Column(Integer, ForeignKey('User.UserID'))
-    GroupID = Column(Integer)
+    ChatID = Column(Integer, ForeignKey('Chat.ChatID'))
 
     @staticmethod
     def from_group_user(dict):
 
         return Group_User(
             UserId =dict['UserID'],
-            GroupID =dict['GroupID']
+            ChatID =dict['ChatID']
         )
 
     def to_group_user(self):
 
         return {
             'UserID': self.UserID,
-            'GroupID': self.GroupID
+            'ChatID': self.ChatID
         }
 
 
 class Message(db.Model):
 
-    __tablename__ = "messages"
+    __tablename__ = "Message"
 
     MessageID = Column(Integer)
     ChatID = Column(Integer, ForeignKey('Chat.ChatID'))
@@ -147,9 +144,3 @@ class Message(db.Model):
         'content': self.content,
         'timesent': self.timesent
         }
-
-# class Resources(db.model):
-"""TODO: Impliment for image/audio"""
-    # GUID
-    # type
-    # url
