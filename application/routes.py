@@ -1,10 +1,10 @@
-  
 from flask import current_app as app
 from flask import render_template
 
 from .models import User, Chat, Message
 from application.users.routes import UserAPI
-from flask_login import current_user, login_user, logout_user
+from application.users.register import RegistrationForm
+from flask_login import current_user, login_user, logout_user, login_required
 
 app.register_blueprint(UserAPI, url_prefix='/user')
 
@@ -18,14 +18,13 @@ def welcome():
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('/'))
     form = RegistrationForm()
     if form.validate_on_submit():
-
         user = User(username=form.username.data,
                     email=form.email.data,
                     first_name=form.first_name.data,
-                    last_name=form.last_name.data
+                    last_name=form.last_name.data,
                     )
 
         user.set_password(form.password.data)
@@ -39,7 +38,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('/'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -47,11 +46,11 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('index'))
+        return redirect(url_for('/'))
     return render_template('login.html', title='Sign In', form=form)
 
 #Logout Route
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('/login'))
