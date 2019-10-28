@@ -1,14 +1,14 @@
-#Message App
+# Message App
 
-##Why we're making this.
+## Why we're making this.
 
 Whatsapp kinda sucks. Or, at least, it isn't $19b good. We want to connect the world like facebook, but without all the modern corporate bad stuff. 
 
 We're creating a lightweight web app which allows for users to securely message and discuss topics.
 
-##Functionality. 
+## Functionality. 
 
-	**MVP:**
+	** MVP: **
 
 	1. Account Creation
 		(Check if username exists)
@@ -20,7 +20,7 @@ We're creating a lightweight web app which allows for users to securely message 
 	7. Send Message
 	8. Delete Message
 
-	**Stretch features:**
+	** Stretch features: **
 
 	9. Send Audio Message (remove non-audio message)
 	10. #public message channels
