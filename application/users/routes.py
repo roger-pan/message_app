@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request
 
-from . import db
-from .models import User
+from application import db
+from application.models import User
 
 UserAPI = Blueprint('user_api', __name__)
 
@@ -55,7 +55,7 @@ def edit_user(UserID):
     db.session.commit()
     return jsonify(User.to_user()), 200
 
-@TodoAPI.route('/<int:UserID>', methods=['DELETE'])
+@UserAPI.route('/<int:UserID>', methods=['DELETE'])
 def delete_user(UserID):
 
     user = User.query.filter(User.UserID == UserID).first()

@@ -3,7 +3,7 @@ from flask import current_app as app
 from flask import render_template
 
 from .models import User, Chat, Message
-from users.routes import UserAPI
+from application.users.routes import UserAPI
 from flask_login import current_user, login_user, logout_user
 
 app.register_blueprint(UserAPI, url_prefix='/user')
@@ -21,7 +21,7 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        
+
         user = User(username=form.username.data,
                     email=form.email.data,
                     first_name=form.first_name.data,

@@ -1,5 +1,5 @@
 from . import db
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, PrimaryKeyConstraint
 from sqlalchemy.sql import func
 from flask_login import UserMixin
 
@@ -17,7 +17,7 @@ class User(UserMixin, db.Model):
     last_name = Column(String(64), index=True)
     email = Column(String(120), index=True, unique=True)
     password_hash = Column(String(128))
-    salt = Column()
+    salt = Column(String(64))
     datecreated = Column(DateTime)
     dateupdated = Column(DateTime)
 
@@ -91,11 +91,11 @@ class Chat_User(db.Model):
     """ Data Model for lookup between groups and users"""
 
     __tablename__ = "Chat_User"
-    __tableargs__ = PrimaryKeyConstraint('UserID', 'ChatID'),
+    __tableargs__ = (PrimaryKeyConstraint('UserID', 'ChatID'),
     )
-    
-    UserID = Column(Integer, ForeignKey('User.UserID'))
-    ChatID = Column(Integer, ForeignKey('Chat.ChatID'))
+
+    UserID = Column(Integer, ForeignKey('User.UserID'), primary_key=True)
+    ChatID = Column(Integer, ForeignKey('Chat.ChatID'), primary_key=True)
 
     @staticmethod
     def from_group_user(dict):
@@ -117,7 +117,7 @@ class Message(db.Model):
 
     __tablename__ = "Message"
 
-    MessageID = Column(Integer)
+    MessageID = Column(Integer, primary_key=True)
     ChatID = Column(Integer, ForeignKey('Chat.ChatID'))
     SenderID = Column(Integer, ForeignKey('User.UserID'))
     content = Column(String)
