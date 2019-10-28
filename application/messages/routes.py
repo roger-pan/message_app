@@ -20,9 +20,9 @@ def get_messages():
          ,m.content
          ,m.timesent 
         FROM 
-          messages AS m 
+          Message AS m 
         INNER JOIN 
-          group_users AS gu 
+          Chat_User AS gu 
         ON 
           gu.ChatID = m.ChatID 
         WHERE 
@@ -47,7 +47,7 @@ def send_messages():
             message = row.to_message() #
             result = db.session.execute(
             '''
-            INSERT INTO messages AS m (m.GroupID, m.SenderID, m.content) 
+            INSERT INTO Message AS m (m.GroupID, m.SenderID, m.content) 
             VALUES (:chat_id, :sender_id, :content)
             '''
         ,{chat_id: message['ChatID'], sender_id: message['SenderID'], content: message['content']}
@@ -67,7 +67,7 @@ def edit_message():
             message = row.to_message()
             result = db.session.execute(
                 '''
-                UPDATE messages AS m 
+                UPDATE Message AS m 
                 SET m.content = :content
                 WHERE m.MessageID = :message_id
                 '''
@@ -87,7 +87,7 @@ def delete_message():
             message = row.to_message()
             result = db.session.execute(
                 '''
-                DELETE FROM messages AS m
+                DELETE FROM Message AS m
                 WHERE id = :message_id
                 '''
                 , {message_id: message['MessageID']}
