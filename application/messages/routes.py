@@ -30,6 +30,7 @@ def get_messages():
         AND 
           gu.UserID = :user_id'
         '''
+
         , {chat_id: ChatID, user_id: UserID }
     )
     message_dict = [row.to_message() for row in result]
@@ -93,6 +94,7 @@ def delete_message():
             )
         db.session.commit()
         return "Success: You deleted a message"
+
 
 
 
