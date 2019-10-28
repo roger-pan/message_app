@@ -9,8 +9,9 @@ db = SQLAlchemy()
 def create_app():
     """Construct the core application."""
     app = Flask(__name__, instance_relative_config=False)
-    
+
     login = LoginManager(app)
+    login.login_view = 'url to login...'
 
     app.config.from_object(DevelopmentConfig)
     db.init_app(app)
