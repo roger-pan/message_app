@@ -11,7 +11,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=False)
 
     login = LoginManager(app)
-    login.login_view = 'url to login...'
+    login.login_view = '/login'
 
     app.config.from_object(DevelopmentConfig)
     db.init_app(app)
